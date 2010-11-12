@@ -73,5 +73,28 @@ module Librevox
     def uuid_bridge uuid1, uuid2
       command "uuid_bridge", "#{uuid1} #{uuid2}"
     end
+    
+    # Get list of queues in the callcenter
+    # @example
+    #   socket.callcenter_queue_list
+    # @see http://wiki.freeswitch.org/wiki/Mod_callcenter
+    def callcenter_queue_list
+      response = command "callcenter_config", "queue list"
+      response.content_from_db
+    end
+    
+    # Get list of agents in the callcenter
+    # @example
+    #   socket.callcenter_agent_list
+    # @see http://wiki.freeswitch.org/wiki/Mod_callcenter
+    def callcenter_agent_list
+      response = command "callcenter_config", "agent list"
+      response.content_from_db
+    end
+    
+    def callcenter_tier_list queue
+      response = command "callcenter_config", "tier list '#{queue}'"
+      response.content_from_db
+    end
   end
 end
