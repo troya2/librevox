@@ -30,7 +30,7 @@ module Librevox
     def content_from_db
       lines = @raw_content.split("\n")
       result = []
-      if lines.pop == "+OK"
+      if lines.pop == "+OK" && lines.count > 0
         keys = lines.delete_at(0).split("|")
         lines.each do |line|
           hash = Hash.new
