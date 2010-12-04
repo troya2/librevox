@@ -8,20 +8,13 @@ require 'librevox/command_socket'
 module Librevox
   VERSION = "0.3"
 
-  def self.options
-    @options ||= {
-      :log_file   => STDOUT,
-      :log_level  => Logger::INFO
-    }
-  end
-
   def self.logger
     @logger ||= logger!
   end
 
   def self.logger!
-    logger = Logger.new(options[:log_file])
-    logger.level = options[:log_level]
+    logger = Logger.new(@log_file)
+    logger.level = @log_level
     logger
   end
 
@@ -37,6 +30,9 @@ module Librevox
   #     run OtherListner
   #   end
   def self.start klass=nil, args={}, &block
+    @log_file = args.delete(:log_file) || STDOUT
+    @log_level = args.delete(:log_level) || Logger::INFO
+
     logger.info "Starting Librevox"
 
     EM.run do
